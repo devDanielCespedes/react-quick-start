@@ -6,6 +6,7 @@ import { SnackbarProvider } from "notistack";
 import { ThemeContextProvider } from "./context/ThemeContext.tsx";
 import { closeSnackbar } from "notistack";
 import { Button } from "@mui/material";
+import "./locales/i18n.ts";
 
 const queryClient = new QueryClient();
 

@@ -1,22 +1,15 @@
-import { UserRoleSchema } from "@src/store/user/userSchema";
+import { userSchema } from "@src/store/user/userSchema";
 import { z } from "zod";
 
 export const loginSchema = z.object({
   username: z.string().email("Invalid email address"),
-  password: z.string(),
+  password: z.string().min(4, "Password must be at least 4 characters"),
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;
 
 export const loginResponseSchema = z.object({
-  data: z.object({
-    id: z.number(),
-    name: z.string(),
-    email: z.string(),
-    role: UserRoleSchema,
-    isActive: z.boolean(),
-    createdAt: z.string(),
-  }),
+  data: userSchema,
   access_token: z.string(),
   token_type: z.string(),
 });

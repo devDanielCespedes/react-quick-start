@@ -1,29 +1,16 @@
-import { useForm, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useLoginMutation } from "@hooks/useLogin";
-import { useLoadingStore } from "@store/login/loadingStore";
-import { LoginInput, loginSchema } from "./loginSchema";
+import { useLoadingStore } from "@src/store/loading/loadingStore";
 import ninjaSwordFlying from "@src/assets/ringaNinja/sword-flying.png";
 import { containerStyles, logoStyles } from "./styles";
 import { Input } from "@src/components/Input/Input";
 import { Button } from "@src/components/Button/Button";
 import { Box } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import { useLoginForm } from "./hooks/useLoginForms";
 
 export const LoginPage = (): JSX.Element => {
-  const loginMutation = useLoginMutation();
+  const { t } = useTranslation(["common", "login"]);
   const isLoading = useLoadingStore((state) => state.isLoading);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginInput>({
-    resolver: zodResolver(loginSchema),
-  });
-
-  const onSubmit: SubmitHandler<LoginInput> = (data) => {
-    loginMutation.mutate(data);
-  };
+  const { register, handleSubmit, errors, onSubmit } = useLoginForm();
 
   return (
     <Box
@@ -33,7 +20,7 @@ export const LoginPage = (): JSX.Element => {
     >
       <Box component="img" src={ninjaSwordFlying} alt="Ninja" sx={logoStyles} />
       <Input
-        label="Email"
+        label={t("email")}
         variant="outlined"
         {...register("username")}
         error={!!errors.username}
@@ -41,7 +28,7 @@ export const LoginPage = (): JSX.Element => {
         disabled={isLoading}
       />
       <Input
-        label="Password"
+        label={t("password")}
         type="password"
         variant="outlined"
         {...register("password")}
@@ -50,7 +37,7 @@ export const LoginPage = (): JSX.Element => {
         disabled={isLoading}
       />
       <Button type="submit" variant="contained" loading={isLoading}>
-        Login
+        {t("login:login")}
       </Button>
     </Box>
   );

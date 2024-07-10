@@ -2,10 +2,13 @@ import FullScreenLoader from "@src/components/FullScreenLoader/FullScreenLoader"
 import { useFetchGetUser, useUserState } from "@src/hooks/useUser";
 import { enqueueSnackbarError } from "@src/utils/error/apiError";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 export const HomePage = (): JSX.Element => {
+  const { t } = useTranslation(["common", "home"]);
+
   const {
-    user: { id },
+    user: { id, name },
   } = useUserState();
   const { data: user, error, isFetched, isFetching } = useFetchGetUser({ id });
   const { updateUserState } = useUserState();
@@ -21,9 +24,10 @@ export const HomePage = (): JSX.Element => {
       enqueueSnackbarError({
         error,
         message: "Erro:",
+        fallbackErrorMessage: t("common:unexpectedError"),
       });
     }
-  }, [error, isFetched]);
+  }, [error, isFetched, t]);
 
   if (isFetching) {
     return <FullScreenLoader />;
@@ -33,5 +37,5 @@ export const HomePage = (): JSX.Element => {
     return <div>Error: {error.message}</div>;
   }
 
-  return <div>Hello, {user?.name}!</div>;
+  return <div>{t("home:greeting", { name })}</div>;
 };

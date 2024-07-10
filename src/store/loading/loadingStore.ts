@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { LoadingState } from "./loginSchema";
+import { LoadingState } from "./loadingSchema";
 
 export const useLoadingStore = create<LoadingState>((set) => ({
   isLoading: false,

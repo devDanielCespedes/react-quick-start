@@ -14,8 +14,6 @@ export const userSchema = z.object({
 });
 export type User = z.infer<typeof userSchema>;
 
-// USER STATE SCHEMA
-
 export const userStateSchema = z.object({
   user: userSchema,
   updateUser: z.function().args(userSchema).returns(z.void()),

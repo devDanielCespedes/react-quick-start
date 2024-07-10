@@ -5,10 +5,11 @@ import {
   GetUserResponse,
   UpdateUserInputMutation,
 } from "@src/store/user/userSchema";
-import { useLoadingStore } from "@src/store/login/loadingStore";
+import { useLoadingStore } from "@src/store/loading/loadingStore";
 import { enqueueSnackbarError } from "@src/utils/error/apiError";
 import { enqueueSnackbar } from "notistack";
 import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 
 export const useUserState = () => {
   const user = useUserStore((state) => state.user);
@@ -32,6 +33,7 @@ export const useUpdateUserMutation = ({ id }: GetUserInput) => {
   const showLoading = useLoadingStore((state) => state.showLoading);
   const hideLoading = useLoadingStore((state) => state.hideLoading);
   const queryClient = useQueryClient();
+  const { t } = useTranslation("common");
 
   return useMutate<GetUserResponse, UpdateUserInputMutation>({
     url: `/api/v1/users/${id}`,
@@ -53,6 +55,7 @@ export const useUpdateUserMutation = ({ id }: GetUserInput) => {
         enqueueSnackbarError({
           error,
           message: "Atualização falhou:",
+          fallbackErrorMessage: t("unexpectedError"),
         });
         hideLoading();
       },

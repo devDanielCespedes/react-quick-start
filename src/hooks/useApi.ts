@@ -42,7 +42,7 @@ const useFetch = <T = unknown, D = unknown>({
   queryOptions?: UseQueryOptions<T, Error>;
   axiosConfig?: AxiosRequestConfig;
 }): UseQueryResult<T, Error> => {
-  const response = useQuery<T, Error>({
+  return useQuery<T, Error>({
     queryKey: queryOptions?.queryKey || [url],
     queryFn: () =>
       fetchData<T, D>({
@@ -54,7 +54,6 @@ const useFetch = <T = unknown, D = unknown>({
     staleTime: 1000 * 60 * 5, // specifies the duration (in milliseconds) for which the fetched data is considered fresh
     ...queryOptions,
   });
-  return response;
 };
 
 const useMutate = <T = unknown, D = unknown>({

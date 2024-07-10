@@ -1,6 +1,6 @@
 import { Box, Button, ButtonGroup, IconButton } from "@mui/material";
 import { useAuthStore } from "@src/store/auth//authStore";
-import { useLoadingStore } from "@src/store/login/loadingStore";
+import { useLoadingStore } from "@src/store/loading/loadingStore";
 import { useThemeStore } from "@src/store/theme/themeStore";
 import {
   createFileRoute,
@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-router";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/_auth")({
   beforeLoad: ({ context, location }) => {
@@ -40,6 +41,11 @@ function AuthLayout() {
   const toggleColorMode = useThemeStore((state) => state.toggleColorMode);
   const router = useRouter();
   const navigate = Route.useNavigate();
+  const { i18n, t } = useTranslation("common");
+
+  const changeLanguage = (lng: string | undefined) => {
+    i18n.changeLanguage(lng);
+  };
 
   const handleNavigateToSettings = () => {
     navigate({ to: "/settings" });
@@ -79,17 +85,20 @@ function AuthLayout() {
         <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit">
           {themeMode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
         </IconButton>
+        <Button onClick={() => changeLanguage("pt")}>pt</Button>
+        <Button onClick={() => changeLanguage("en")}>en</Button>
       </Box>
 
       <ButtonGroup>
-        <Button onClick={handleNavigateToSettings} variant="contained">
-          Settings
-        </Button>
         <Button onClick={handleNavigateToHome} variant="contained">
-          Home
+          {t("home")}
         </Button>
+        <Button onClick={handleNavigateToSettings} variant="contained">
+          {t("settings")}
+        </Button>
+
         <Button onClick={handleLogout} variant="contained">
-          Logout
+          {t("logout")}
         </Button>
       </ButtonGroup>
 

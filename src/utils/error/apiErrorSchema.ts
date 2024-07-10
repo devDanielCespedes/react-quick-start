@@ -13,6 +13,7 @@ export type CustomApiError = z.infer<typeof CustomApiErrorSchema>;
 export const enqueueSnackbarErrorArgsSchema = z.object({
   error: z.instanceof(Error),
   message: z.string(),
+  fallbackErrorMessage: z.string(),
 });
 
 export type EnqueueSnackbarErrorArgs = z.infer<
