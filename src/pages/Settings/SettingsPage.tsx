@@ -8,6 +8,7 @@ import { useSettingsForms } from "./hooks/useSettingsForms";
 export const SettingsPage = (): JSX.Element => {
   const { t } = useTranslation("common");
   const { register, handleSubmit, errors, onSubmit } = useSettingsForms();
+  console.log("sETTINGS");
 
   return (
     <Box

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 import { User, UserState } from "./userSchema";
 
 const initialState: User = {
@@ -10,10 +11,18 @@ const initialState: User = {
   createdAt: "",
 };
 
-export const useUserStore = create<UserState>((set) => ({
-  user: initialState,
-  updateUser: (user: User) =>
-    set((state: UserState) => {
-      return { user: { ...state.user, ...user } };
+export const useUserStore = create<UserState>()(
+  persist(
+    (set) => ({
+      user: initialState,
+      updateUser: (user: User) =>
+        set((state) => ({
+          user: { ...state.user, ...user },
+        })),
     }),
-}));
+    {
+      name: "user-storage",
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+);

@@ -23,7 +23,7 @@ export const useFetchGetUser = ({ id }: GetUserInput) => {
     queryOptions: {
       queryKey: ["getUser"],
       enabled: !!id,
-      refetchOnWindowFocus: true,
+      refetchOnWindowFocus: false,
     },
   });
   return { data: data?.data, ...rest };
